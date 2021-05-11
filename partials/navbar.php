@@ -11,10 +11,10 @@
         <a class="nav-link" href="add_articulo.php">Registrar Bienes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="inventario_anual.php">Inventario Anual</a>
+        <a class="nav-link" href="inventario_general.php">Inventario General</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="inventario_general.php">Inventario General</a>
+        <a class="nav-link" href="inventario_general.php">Empleados</a>
       </li>
     </ul>
   </div>

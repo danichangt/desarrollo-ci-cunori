@@ -13,7 +13,7 @@
 
       <div class="card card-body text-center">
       <h1>Registrar Bienes</h1>
-        <form action="add_articulo.php" method="POST">
+        <form action="controls/create_articulo.php" method="POST">
             <div class="form-group">
                 <input type="text" name="no_clave_control" class="form-control" placeholder="No. de Clave de Control" autofocus>
             </div>
@@ -21,7 +21,7 @@
             <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción"></textarea>
             </div>
             <div class="input-group mb-3">
-                    <select class="custom-select" id="inputGroupSelect01">
+                    <select class="custom-select" id="categoria" name="categoria">
                         <option selected>Categoría</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
@@ -33,12 +33,12 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Q</span>
-                <input type="number" class="form-control" placeholder="Valor" min="0">
+                <input type="number" name="valor" class="form-control" placeholder="Valor" min="0">
             </div>
             <div class="form-group">
                 <input type="date" name="fecha_ingreso" class="form-control">
             </div>
-            <input type="submit" class="btn btn-primary btn-block" name="agregar" value="Agregar">
+            <input type="submit" class="btn btn-primary btn-block" name="create_articulo" value="Agregar">
 
         </form>
       </div>

@@ -4,9 +4,10 @@
     $password = '@@Kyubi07@@';
     $database = 'ci_cunori';
 
-    try{
-        $conn = new PDO("mysql:host=$server;dbname=$database;", $username, $password);
-    }catch(PDOException $e){
-        die('Falló la conexion: '.$e->getMessage());
-    }
+    $conn = mysqli_connect(
+        'localhost:3306',
+        'root',
+        '@@Kyubi07@@',
+        'ci_cunori'
+      ) or die(mysqli_erro($mysqli));
 ?>

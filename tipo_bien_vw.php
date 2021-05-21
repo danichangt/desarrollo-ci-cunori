@@ -32,11 +32,12 @@
       </div>
     </div>
 
-    <div class="col-md-10 mx-auto mb-3">
+    <div class="col-md-8 mx-auto mb-3">
       <table class="table table-bordered">
         <thead>
           <tr>
             <th>Descripción</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>

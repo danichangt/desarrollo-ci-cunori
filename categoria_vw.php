@@ -25,22 +25,23 @@
       <h1>Categorías</h1>
         <form action="control/create_categoria.php" method="POST">
             <div class="form-group">
-                <input type="text" name="codigo_control" class="form-control" placeholder="Código de Control" autofocus>
+                <input type="text" name="codigo_control" class="form-control" placeholder="Código de Control" autofocus required>
             </div>
             <div class="form-group">
-            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción"></textarea>
+            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" requiere></textarea>
             </div>
             <input type="submit" class="btn btn-primary btn-block" name="create_categoria" value="Agregar">
         </form>
       </div>
     </div>
 
-    <div class="col-md-10 mx-auto mb-3">
+    <div class="col-md-8 mx-auto mb-3">
       <table class="table table-bordered">
         <thead>
           <tr>
             <th>Código de Control</th>
             <th>Descripción</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -55,7 +56,10 @@
                 <tr>
                     <td><?php echo $row['codigo_control']; ?></td>
                     <td><?php echo $row['descripcion']; ?></td>
-                
+                    <td>
+                      <a href="/edit_categoria.php?=<?php echo $row['codigo_control']?>"class="btn btn-light"><i class="far fa-edit"></i></a>
+                      <a href="/delete_categoria.php?=<?php echo $row['codigo_control']?>" class="btn btn-danger"><i class="far fa-trash-alt"></i></i></a>
+                    </td>
                 </tr>
 
             <?php } ?>

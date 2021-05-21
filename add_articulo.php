@@ -63,7 +63,6 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>#</th>
             <th>No. de Clave de Control</th>
             <th>Descripción</th>
             <th>Valor</th>
@@ -73,6 +72,30 @@
             <th>Disponible</th>
           </tr>
         </thead>
+        <tbody>
+        
+          <?php
+
+            $query = "select a.no_clave_control, a.descripcion, a.valor, t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t on a.tipo_idtipo = t.idtipo;";
+            $result_articulo = mysqli_query($conn, $query);
+
+            while($row = mysqli_fetch_assoc($result_articulo)){?>
+
+              <tr>
+
+                <td><?php echo $row['no_clave_control']; ?></td>
+                <td><?php echo $row['descripcion']; ?></td>
+                <td><?php echo $row['valor']; ?></td>
+                <td><?php echo $row['tipo_bien_descripcion']; ?></td>
+                <td><?php echo $row['fecha_ingreso']; ?></td>
+                <td><?php echo $row['activo']; ?></td>
+                <td><?php echo $row['disponible']; ?></td>
+
+              </tr>
+
+            <?php } ?>                
+          
+        </tbody>
         
       </table>
     </div>

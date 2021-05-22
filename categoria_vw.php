@@ -1,6 +1,4 @@
-<?php
-    require 'database.php';
-?>
+<?php include('database.php');?>
 
 <?php include("partials/header.php")?>
 
@@ -25,10 +23,10 @@
       <h1>Categorías</h1>
         <form action="control/create_categoria.php" method="POST">
             <div class="form-group">
-                <input type="text" name="codigo_control" class="form-control" placeholder="Código de Control" autofocus required>
+                <input type="text" name="codigo_control" class="form-control" placeholder="Código de Control"  required autofocus>
             </div>
             <div class="form-group">
-            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" requiere></textarea>
+            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" required></textarea>
             </div>
             <input type="submit" class="btn btn-primary btn-block" name="create_categoria" value="Agregar">
         </form>
@@ -57,8 +55,8 @@
                     <td><?php echo $row['codigo_control']; ?></td>
                     <td><?php echo $row['descripcion']; ?></td>
                     <td>
-                      <a href="/edit_categoria.php?=<?php echo $row['codigo_control']?>"class="btn btn-light"><i class="far fa-edit"></i></a>
-                      <a href="/delete_categoria.php?=<?php echo $row['codigo_control']?>" class="btn btn-danger"><i class="far fa-trash-alt"></i></i></a>
+                      <a href="control/update_categoria.php?codigo_control=<?php echo $row['codigo_control']?>"class="btn btn-light"><i class="far fa-edit"></i></a>
+                      <a href="control/delete_categoria.php?codigo_control=<?php echo $row['codigo_control']?>" class="btn btn-danger"><i class="far fa-trash-alt"></i></i></a>
                     </td>
                 </tr>
 

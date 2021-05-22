@@ -25,7 +25,7 @@
       <h1>Tipo de Artículo</h1>
         <form action="control/create_tipobien.php" method="POST">
             <div class="form-group">
-            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción"></textarea>
+            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" required></textarea>
             </div>
             <input type="submit" class="btn btn-primary btn-block" name="create_tipobien" value="Agregar">
         </form>
@@ -52,6 +52,10 @@
                 <tr>
 
                     <td><?php echo $row['descripcion']; ?></td>
+                    <td>
+                      <a href="control/update_tipo.php?idtipo=<?php echo $row['idtipo']?>"class="btn btn-light"><i class="far fa-edit"></i></a>
+                      <a href="control/delete_tipo.php?idtipo=<?php echo $row['idtipo']?>" class="btn btn-danger"><i class="far fa-trash-alt"></i></i></a>
+                    </td>
                 
                 </tr>
 

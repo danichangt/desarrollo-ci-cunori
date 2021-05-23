@@ -15,10 +15,10 @@
       <h1>Registrar Bienes</h1>
         <form action="control/create_articulo.php" method="POST">
             <div class="form-group">
-                <input type="text" name="no_clave_control" class="form-control" placeholder="No. de Clave de Control" autofocus>
+                <input type="text" name="no_clave_control" class="form-control" placeholder="No. de Clave de Control" autofocus required>
             </div>
             <div class="form-group">
-            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción"></textarea>
+            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" required></textarea>
             </div>
             <div class="input-group mb-1">
                     <select class="custom-select" id="categoria" name="categoria">
@@ -28,7 +28,7 @@
                         $result_categoria = mysqli_query($conn, $query);
 
                         while($row = mysqli_fetch_assoc($result_categoria)){?>
-                          <option value="<?php echo $row['codigo_control']?>"><?php echo $row['descripcion']?></option>
+                          <option value="<?php echo $row['idcategoria']?>"><?php echo $row['descripcion']?></option>
                         <?php } ?>
                     </select>
             </div>

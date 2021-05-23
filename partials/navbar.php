@@ -8,10 +8,10 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="add_articulo.php">Registrar Bienes</a>
+        <a class="nav-link" href="/controlinventarios_cunori/add_articulo.php">Registrar Bienes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="inventario_general.php">Inventario General</a>
+        <a class="nav-link" href="/controlinventarios_cunori/inventario_general.php">Inventario General</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="inventario_general.php">Empleados</a>

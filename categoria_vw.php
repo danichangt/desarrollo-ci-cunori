@@ -55,8 +55,8 @@
                     <td><?php echo $row['codigo_control']; ?></td>
                     <td><?php echo $row['descripcion']; ?></td>
                     <td>
-                      <a href="control/update_categoria.php?codigo_control=<?php echo $row['codigo_control']?>"class="btn btn-light"><i class="far fa-edit"></i></a>
-                      <a href="control/delete_categoria.php?codigo_control=<?php echo $row['codigo_control']?>" class="btn btn-danger"><i class="far fa-trash-alt"></i></i></a>
+                      <a href="control/update_categoria.php?idcategoria=<?php echo $row['idcategoria']?>"class="btn btn-light"><i class="far fa-edit"></i></a>
+                      <a href="control/delete_categoria.php?idcategoria=<?php echo $row['idcategoria']?>" class="btn btn-danger"><i class="far fa-trash-alt"></i></i></a>
                     </td>
                 </tr>
 

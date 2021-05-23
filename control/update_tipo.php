@@ -28,8 +28,8 @@
 
 ?>
 
-<?php include("../partials/header.php")?>
-<?php include("../partials/navbar.php")?>
+<?php include('../partials/header.php')?>
+<?php include('../partials/navbar.php')?>
 
     <div class="container-fluid p-4">
         <div class="row">
@@ -38,7 +38,7 @@
                 <h1>Actualizar Tipo de Artículo</h1>
                 <form action="update_tipo.php?idtipo=<?php echo $_GET['idtipo']; ?>" method="POST">
                     <div class="form-group">
-                        <textarea name="descripcion" class="form-control" cols="30" rows="10"><?php echo $descripcion;?></textarea>
+                        <textarea name="descripcion" class="form-control" cols="30" rows="10" required><?php echo $descripcion;?></textarea>
                     </div>
                     <button class="btn btn-success btn-block" name="actualizar">Actualizar</button>
                 </form>

@@ -11,7 +11,7 @@
         $valor = $_POST['valor'];
         $fecha_ingreso = $_POST['fecha_ingreso'];
 
-        $query = "insert into articulo(no_clave_control, descripcion, valor, fecha_ingreso, categoria_codigo_control, tipo_idtipo) values ('$no_clave_control', '$descripcion', $valor, '$fecha_ingreso', '$categoria', $tipo_bien)";
+        $query = "insert into articulo(no_clave_control, descripcion, valor, fecha_ingreso, categoria_idcategoria, tipo_idtipo) values ('$no_clave_control', '$descripcion', $valor, '$fecha_ingreso', '$categoria', $tipo_bien)";
         $result = mysqli_query($conn, $query);
 
         if (!$result) {

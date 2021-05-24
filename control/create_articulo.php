@@ -15,10 +15,7 @@
         $result = mysqli_query($conn, $query);
 
         if (!$result) {
-            echo $fecha_ingreso;
-            echo $categoria;
-            echo $tipo_bien;
-            echo $valor;
+
             die("Consulta ha fallado");
             
         }

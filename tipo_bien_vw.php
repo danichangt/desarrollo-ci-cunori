@@ -53,8 +53,8 @@
 
                     <td><?php echo $row['descripcion']; ?></td>
                     <td>
-                      <a href="control/update_tipo.php?idtipo=<?php echo $row['idtipo']?>"class="btn btn-light"><i class="far fa-edit"></i></a>
-                      <a href="control/delete_tipo.php?idtipo=<?php echo $row['idtipo']?>" class="btn btn-danger"><i class="far fa-trash-alt"></i></i></a>
+                      <a href="control/update_tipo.php?idtipo=<?php echo $row['idtipo']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
+                      <a href="control/delete_tipo.php?idtipo=<?php echo $row['idtipo']?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Eliminar</a>
                     </td>
                 
                 </tr>

@@ -70,13 +70,14 @@
             <th>Fecha de Ingreso</th>
             <th>Activo</th>
             <th>Disponible</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
         
           <?php
 
-            $query = "select a.no_clave_control, a.descripcion, a.valor, t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t on a.tipo_idtipo = t.idtipo;";
+            $query = "select a.idarticulo, a.no_clave_control, a.descripcion, a.valor, t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t on a.tipo_idtipo = t.idtipo;";
             $result_articulo = mysqli_query($conn, $query);
 
             while($row = mysqli_fetch_assoc($result_articulo)){?>
@@ -90,7 +91,11 @@
                 <td><?php echo $row['fecha_ingreso']; ?></td>
                 <td><?php echo $row['activo']; ?></td>
                 <td><?php echo $row['disponible']; ?></td>
-
+                <td>
+                  <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>"class="btn btn-success"><i class="fas fa-user-plus"></i>Asignar</a>
+                  <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
+                  <a href="control/delete_articulo.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Eliminar</a>
+                </td>
               </tr>
 
             <?php } ?>                

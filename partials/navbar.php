@@ -14,7 +14,7 @@
         <a class="nav-link" href="/controlinventarios_cunori/inventario_general.php">Inventario General</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="inventario_general.php">Empleados</a>
+        <a class="nav-link" href="/controlinventarios_cunori/empleado_vw.php">Empleados</a>
       </li>
     </ul>
   </div>

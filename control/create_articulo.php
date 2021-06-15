@@ -19,6 +19,9 @@
             die("Consulta ha fallado");
             
         }
+
+        $_SESSION['message'] = '¡Artículo agregado exitosamente!';
+        $_SESSION['message_type'] = 'success';
         header('Location: ../add_articulo.php');
     }
 

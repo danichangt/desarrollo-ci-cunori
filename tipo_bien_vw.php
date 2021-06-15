@@ -33,7 +33,7 @@
     </div>
 
     <div class="col-md-8 mx-auto mb-3">
-      <table class="table table-bordered">
+      <table class="table table-bordered text-center">
         <thead>
           <tr>
             <th>Descripción</th>
@@ -54,7 +54,6 @@
                     <td><?php echo $row['descripcion']; ?></td>
                     <td>
                       <a href="control/update_tipo.php?idtipo=<?php echo $row['idtipo']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
-                      <a href="control/delete_tipo.php?idtipo=<?php echo $row['idtipo']?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Eliminar</a>
                     </td>
                 
                 </tr>

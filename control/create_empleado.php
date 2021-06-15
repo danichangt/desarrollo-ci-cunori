@@ -17,6 +17,8 @@
             die("La consulta ha fallado");
         }
 
+        $_SESSION['message'] = '¡Empleado agregado exitosamente!';
+        $_SESSION['message_type'] = 'success';
         header('Location: ../empleado_vw.php');
     }
 

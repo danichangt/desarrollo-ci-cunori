@@ -8,6 +8,16 @@
     <main class="container-fluid p-4">
         <div class="row">
             <div class="col-md-3 mx-auto">
+            <!-- MESSAGES -->
+            <?php if (isset($_SESSION['message'])) { ?>
+            <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
+                <?= $_SESSION['message']?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?php session_unset(); } ?>
+            <!-- MESSAGES -->
                 <div class="card card-body">
                     <h1 class="text-center">Empleados</h1>
                     <form action="control/create_empleado.php" method="POST">
@@ -42,7 +52,7 @@
                 </div>
             </div>
             <div class="col-md-8 mx-auto">
-                <table class="table table-bordered">
+                <table class="table table-bordered text-center">
                     <thead>
                         <tr>
                             <th>DPI</th>
@@ -55,7 +65,7 @@
                     </thead>
                     <tbody>
                         <?php
-                            $query = "select dpi, codigo, nombres, apellidos, a.descripcion from empleado inner join areaemp a on a.idarea = areaemp_idarea order by nombres asc";
+                            $query = "select idempleado, dpi, codigo, nombres, apellidos, a.descripcion from empleado inner join areaemp a on a.idarea = areaemp_idarea order by nombres asc";
                             $result_empleado = mysqli_query($conn, $query);
 
                             while($row = mysqli_fetch_assoc($result_empleado)){?>
@@ -67,8 +77,7 @@
                                     <td><?php echo $row['apellidos']; ?></td>
                                     <td><?php echo $row['descripcion']; ?></td>
                                     <td>
-                                        <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
-                                        <a href="control/delete_articulo.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Eliminar</a>
+                                        <a href="control/update_empleado.php?idempleado=<?php echo $row['idempleado']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
                                     </td>
                                 </tr>
 

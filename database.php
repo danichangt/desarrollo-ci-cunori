@@ -4,6 +4,9 @@
     $password = '@@Kyubi07@@';
     $database = 'ci_cunori';
 
+
+    session_start();
+    
     $conn = mysqli_connect(
         'localhost:3306',
         'root',

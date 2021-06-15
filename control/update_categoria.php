@@ -25,6 +25,8 @@
         $query = "update categoria set codigo_control = '$codigo_control', descripcion = '$descripcion' where idcategoria = $idcategoria";
         mysqli_query($conn, $query);
 
+        $_SESSION['message'] = '¡Categoría editada exitosamente!';
+        $_SESSION['message_type'] = 'info';
         header('Location: ../categoria_vw.php');
     }
 

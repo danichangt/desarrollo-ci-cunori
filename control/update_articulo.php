@@ -38,6 +38,8 @@
                     tipo_idtipo = $tipo_idtipo, valor = $valor, fecha_ingreso = '$fecha_ingreso' where idarticulo = $idarticulo";
         mysqli_query($conn, $query);
 
+        $_SESSION['message'] = '¡Artículo editado exitosamente!';
+        $_SESSION['message_type'] = 'info';
         header('Location: ../add_articulo.php');
     }
 

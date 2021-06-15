@@ -9,7 +9,17 @@
 <main class="container-fluid p-4">
   <div class="row">
     <div class="col-md-4 mx-auto mb-3">
-      
+    
+      <!-- MESSAGES -->
+      <?php if (isset($_SESSION['message'])) { ?>
+      <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
+        <?= $_SESSION['message']?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <?php session_unset(); } ?>
+      <!-- MESSAGES -->
 
       <div class="card card-body">
       <h1 class="text-center">Registrar Bienes</h1>
@@ -62,7 +72,7 @@
     </div>
 
     <div class="col-md-10 mx-auto mb-3">
-      <table class="table table-bordered">
+      <table class="table table-bordered text-center">
         <thead>
           <tr>
             <th>No. de Clave de Control</th>
@@ -96,7 +106,6 @@
                 <td>
                   <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>"class="btn btn-success"><i class="fas fa-user-plus"></i>Asignar</a>
                   <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
-                  <a href="control/delete_articulo.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Eliminar</a>
                 </td>
               </tr>
 

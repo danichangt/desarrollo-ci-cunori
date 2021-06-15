@@ -12,7 +12,7 @@
             die("Consulta ha fallado.");
         }
 
-        $_SESSION['message'] = '¡Categoría agregada exitosamente!';
+        $_SESSION['message'] = '¡Tipo de bien agregado exitosamente!';
         $_SESSION['message_type'] = 'success';
 
         header('Location: ../tipo_bien_vw.php');

@@ -23,6 +23,8 @@
         $query = "update tipo set descripcion = '$descripcion' where idtipo = $idtipo";
         mysqli_query($conn, $query);
 
+        $_SESSION['message'] = '¡Tipo de bien editado exitosamente!';
+        $_SESSION['message_type'] = 'info';
         header('Location: ../tipo_bien_vw.php');
     }
 

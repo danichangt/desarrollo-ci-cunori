@@ -23,6 +23,8 @@
         $query = "update areaemp set descripcion = '$descripcion' where idarea = $idarea";
         mysqli_query($conn, $query);
 
+        $_SESSION['message'] = '¡Área editada exitosamente!';
+        $_SESSION['message_type'] = 'info';
         header('Location: ../areaemp_vw.php');
     }
 

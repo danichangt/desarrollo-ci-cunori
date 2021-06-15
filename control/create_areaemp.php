@@ -12,6 +12,9 @@
             die("Consulta ha fallado.");
         }
 
+        $_SESSION['message'] = '¡Área agregada exitosamente!';
+        $_SESSION['message_type'] = 'success';
+
         header('Location: ../areaemp_vw.php');
     }
 

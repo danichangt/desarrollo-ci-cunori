@@ -8,8 +8,7 @@
   <div class="row">
     <div class="col-md-4 mx-auto mb-3">
       
-        <!-- MESSAGES -->
-
+      <!-- MESSAGES -->
       <?php if (isset($_SESSION['message'])) { ?>
       <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
         <?= $_SESSION['message']?>
@@ -18,7 +17,8 @@
         </button>
       </div>
       <?php session_unset(); } ?>
-      
+      <!-- MESSAGES -->
+
       <div class="card card-body text-center">
       <h1>Categorías</h1>
         <form action="control/create_categoria.php" method="POST">
@@ -34,7 +34,7 @@
     </div>
 
     <div class="col-md-8 mx-auto mb-3">
-      <table class="table table-bordered">
+      <table class="table table-bordered text-center">
         <thead>
           <tr>
             <th>Código de Control</th>
@@ -56,7 +56,6 @@
                     <td><?php echo $row['descripcion']; ?></td>
                     <td>
                       <a href="control/update_categoria.php?idcategoria=<?php echo $row['idcategoria']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
-                      <a href="control/delete_categoria.php?idcategoria=<?php echo $row['idcategoria']?>" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Eliminar</a>
                     </td>
                 </tr>
 

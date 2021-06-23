@@ -1,43 +1,56 @@
+<?php require 'database.php'?>
 <?php include("partials/header.php")?>
-    <?php include("partials/navbar.php")?>
+<?php include("partials/navbar.php")?>
 
-    <div class="col-md-12 mt-3">
-
-        <table class="table table-bordered">
+<main class="container-fluid p-4">
+    <div class="text-center mb-4">
+        <h1>Inventario General</h1>
+    </div>
+    <div class="col-md-10 mx-auto mt-4">
+        <table class="table table-bordered text-center" id="inventario_general" >
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">No. de Clave de Control</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Valor</th>
-                    <th scope="col">Tipo de Bien</th>
-                    <th scope="col">Fecha de Ingreso</th>
-                    <th scope="col">Activo</th>
-                    <th scope="col">Disponible</th>
+                    <th>No. de Clave de Control</th>
+                    <th>Descripción</th>
+                    <th>Valor</th>
+                    <th>Tipo de Bien</th>
+                    <th>Fecha de Ingreso</th>
+                    <th>Activo</th>
+                    <th>Disponible</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                </tr>
+            
+                <?php
+
+                    $query = "select a.idarticulo, a.no_clave_control, a.descripcion, a.valor, t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t on a.tipo_idtipo = t.idtipo;";
+                    $result_articulo = mysqli_query($conn, $query);
+
+                    while($row = mysqli_fetch_assoc($result_articulo)){?>
+
+                    <tr>
+
+                        <td><?php echo $row['no_clave_control']; ?></td>
+                        <td><?php echo $row['descripcion']; ?></td>
+                        <td><?php echo $row['valor']; ?></td>
+                        <td><?php echo $row['tipo_bien_descripcion']; ?></td>
+                        <td><?php echo $row['fecha_ingreso']; ?></td>
+                        <td><?php echo $row['activo']; ?></td>
+                        <td><?php echo $row['disponible']; ?></td>
+                    </tr>
+                <?php } ?>                
             </tbody>
         </table>
-        
     </div>
-
+</main>
+    
 <?php include("partials/footer.php")?>
+<script >
+    $(document).ready(function() {
+        $('#inventario_general').DataTable( {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            }
+        } );
+    } );
+</script>

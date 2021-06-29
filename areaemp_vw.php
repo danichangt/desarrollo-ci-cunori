@@ -51,7 +51,7 @@
         </div>
       <?php session_unset(); } ?>
       <!-- MESSAGES -->
-      <table class="table table-bordered text-center">
+      <table class="table table-bordered text-center" id="area_emp">
         <thead>
           <tr>
             <th>Descripción</th>
@@ -79,3 +79,12 @@
 </main>
 
 <?php include("partials/footer.php")?>
+<script >
+    $(document).ready(function() {
+        $('#area_emp').DataTable( {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            }
+        } );
+    } );
+</script>

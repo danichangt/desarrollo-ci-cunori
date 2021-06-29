@@ -58,7 +58,7 @@
         </div>
       <?php session_unset(); } ?>
       <!-- MESSAGES -->
-      <table class="table table-bordered text-center">
+      <table class="table table-bordered text-center" id="categorias">
         <thead>
           <tr>
             <th>Código de Control</th>
@@ -93,3 +93,12 @@
 
 
 <?php include("partials/footer.php")?>
+<script >
+    $(document).ready(function() {
+        $('#categorias').DataTable( {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            }
+        } );
+    } );
+</script>

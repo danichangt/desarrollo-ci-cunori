@@ -54,7 +54,7 @@
       </div>
       <?php session_unset(); } ?>
       <!-- MESSAGES -->
-      <table class="table table-bordered text-center">
+      <table class="table table-bordered text-center" id="tipo_bien">
         <thead>
           <tr>
             <th>Descripción</th>
@@ -89,3 +89,12 @@
 
 
 <?php include("partials/footer.php")?>
+<script >
+    $(document).ready(function() {
+        $('#tipo_bien').DataTable( {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            }
+        } );
+    } );
+</script>

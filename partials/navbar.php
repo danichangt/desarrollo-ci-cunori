@@ -16,6 +16,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/controlinventarios_cunori/empleado_vw.php">Empleados</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/controlinventarios_cunori/asignaciones_vw.php">Asignaciones</a>
+      </li>
     </ul>
   </div>
 </nav>

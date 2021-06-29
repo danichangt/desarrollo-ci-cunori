@@ -77,7 +77,7 @@
                 </div>
             </div>
             
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center" id="empleados">
                 <thead>
                     <tr>
                         <th>DPI</th>
@@ -114,3 +114,12 @@
 </main>
 
 <?php include("partials/footer.php")?>
+<script >
+    $(document).ready(function() {
+        $('#empleados').DataTable( {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            }
+        } );
+    } );
+</script>

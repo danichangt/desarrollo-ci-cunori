@@ -15,7 +15,7 @@
 
       <div class="mb-2">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#articulos">
-          <i class="fas fa-plus"></i> Agregar Artículo
+          <i class="fas fa-plus"></i> Agregar
         </button>
       </div>
 
@@ -23,7 +23,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Nuevo Artículo</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Nuevo Registro</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -95,12 +95,13 @@
       <?php session_unset(); } ?>
       <!-- MESSAGES -->
 
-      <table class="table table-bordered text-center">
+      <table class="table table-bordered text-center" id="inventario_anual">
         <thead>
           <tr>
             <th>No. de Clave de Control</th>
             <th>Descripción</th>
-            <th>Valor</th>
+            <th>Valor Q</th>
+            <th>Categoría</th>
             <th>Tipo de Bien</th>
             <th>Fecha de Ingreso</th>
             <th>Activo</th>
@@ -112,7 +113,9 @@
         
           <?php
 
-            $query = "select a.idarticulo, a.no_clave_control, a.descripcion, a.valor, t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t on a.tipo_idtipo = t.idtipo;";
+            $query = "select a.idarticulo, a.no_clave_control, a.descripcion, a.valor, c.descripcion as categoria, 
+            t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t 
+            on a.tipo_idtipo = t.idtipo inner join categoria c on a.categoria_idcategoria = c.idcategoria;";
             $result_articulo = mysqli_query($conn, $query);
 
             while($row = mysqli_fetch_assoc($result_articulo)){?>
@@ -121,14 +124,15 @@
 
                 <td><?php echo $row['no_clave_control']; ?></td>
                 <td><?php echo $row['descripcion']; ?></td>
-                <td><?php echo $row['valor']; ?></td>
+                <td>Q<?php echo $row['valor']; ?></td>
+                <td><?php echo $row['categoria']; ?></td>
                 <td><?php echo $row['tipo_bien_descripcion']; ?></td>
                 <td><?php echo $row['fecha_ingreso']; ?></td>
                 <td><?php echo $row['activo']; ?></td>
                 <td><?php echo $row['disponible']; ?></td>
                 <td>
-                  <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>"class="btn btn-success"><i class="fas fa-user-plus"></i>Asignar</a>
-                  <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
+                  <a href="asignaciones_vw.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-success"><i class="fas fa-user-plus"></i>Asignar</a>
+                  <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
                 </td>
               </tr>
 
@@ -142,3 +146,12 @@
 </main>
 
 <?php include("partials/footer.php")?>
+<script >
+    $(document).ready(function() {
+        $('#inventario_anual').DataTable( {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+            }
+        } );
+    } );
+</script>

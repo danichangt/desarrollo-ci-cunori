@@ -8,6 +8,7 @@
     $tipo_idtipo = '';
     $valor = '';
     $fecha_ingreso = '';
+    $activo = '';
 
     if (isset($_GET['idarticulo'])) {
         $idarticulo = $_GET['idarticulo'];
@@ -33,9 +34,10 @@
         $tipo_idtipo = $_POST['tipo_idtipo'];
         $valor = $_POST['valor'];
         $fecha_ingreso = $_POST['fecha_ingreso'];
+        $activo = $_POST['activo'];
 
         $query = "update articulo set no_clave_control = '$no_clave_control', descripcion = '$descripcion', categoria_idcategoria = $categoria_idcategoria, 
-                    tipo_idtipo = $tipo_idtipo, valor = $valor, fecha_ingreso = '$fecha_ingreso' where idarticulo = $idarticulo";
+                    tipo_idtipo = $tipo_idtipo, valor = $valor, fecha_ingreso = '$fecha_ingreso', activo = $activo where idarticulo = $idarticulo";
         mysqli_query($conn, $query);
 
         $_SESSION['message'] = '¡Artículo editado exitosamente!';
@@ -53,24 +55,29 @@
     <div class="col-md-4 mx-auto mb-3">
       
 
-      <div class="card card-body text-center">
+      <div class="card card-body">
       <h1>Actualizar Bienes</h1>
         <form action="update_articulo.php?idarticulo=<?php echo $_GET['idarticulo']?>" method="POST">
+            <label for="no_clave_control">No. Clave de Control: </label>
             <div class="form-group">
                 <input type="text" name="no_clave_control" class="form-control" value="<?php echo $row['no_clave_control']?>" placeholder="No. de Clave de Control" autofocus required>
             </div>
+            <label for="descripcion">Descripción: </label>
             <div class="form-group">
             <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" required><?php echo $row['descripcion']?></textarea>
             </div>
+            <label for="valor">Valor: </label>
             <div class="input-group mb-3">
                 <span class="input-group-text">Q</span>
-                <input type="number" name="valor" class="form-control" value="<?php echo $row['valor']?>" placeholder="Valor" min="0" step="0.01">
+                <input type="number" name="valor" class="form-control" value="<?php echo $row['valor']?>" placeholder="Valor" min="0" step="0.01" required>
             </div>
+            <label for="fecha_ingreso">Fecha de Ingreso: </label>
             <div class="form-group">
-                <input type="date" name="fecha_ingreso" value="<?php echo $row['fecha_ingreso']?>" class="form-control">
+                <input type="date" name="fecha_ingreso" value="<?php echo $row['fecha_ingreso']?>" class="form-control" required>
             </div>
+            <label for="categoria_idcategoria">Categoría: </label>
             <div class="input-group mb-1">
-                    <select class="custom-select" id="categoria" name="categoria_idcategoria">
+                    <select class="custom-select" id="categoria" name="categoria_idcategoria" required>
                       <?php
 
                         $query2 = "select * from categoria order by descripcion asc";
@@ -81,8 +88,9 @@
                         <?php } ?>
                     </select>
             </div>
+            <label for="tipo_idtipo">No. Clave de Control: </label>
             <div class="input-group mb-1">
-                    <select class="custom-select" id="tipo_bien" name="tipo_idtipo">
+                    <select class="custom-select" id="tipo_bien" name="tipo_idtipo"required>
                       <?php
 
                         $query3 = "select * from tipo order by descripcion asc";
@@ -93,7 +101,13 @@
                         <?php } ?>
                     </select>
             </div>
-            
+            <label for="activo">Activo: </label>
+            <div class="input-group mb-3">
+              <select class="custom-select" id="activo" name="activo" required>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+              </select>
+            </div>
             
             <button class="btn btn-success btn-block" name="actualizar">Actualizar</button>
 

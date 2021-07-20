@@ -14,7 +14,7 @@
     <div class="col-md-8 mx-auto mb-3">
       <div class="mb-2">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoria">
-          <i class="fas fa-plus"></i> Agregar Categoría
+          <i class="fas fa-plus"></i> Agregar
         </button>
       </div>
 
@@ -22,7 +22,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Nueva Categoría</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Nuevo Registro</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -37,7 +37,7 @@
                     <div class="form-group">
                     <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" required></textarea>
                     </div>
-                    <input type="submit" class="btn btn-primary btn-block" name="create_categoria" value="Agregar">
+                    <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="create_categoria">Agregar</button>
                 </form>
               </div>
             </div>
@@ -58,7 +58,7 @@
         </div>
       <?php session_unset(); } ?>
       <!-- MESSAGES -->
-      <table class="table table-bordered text-center" id="categorias">
+      <table class="table table-responsive-lg table-bordered text-center" id="categorias">
         <thead>
           <tr>
             <th>Código de Control</th>
@@ -79,7 +79,7 @@
                     <td><?php echo $row['codigo_control']; ?></td>
                     <td><?php echo $row['descripcion']; ?></td>
                     <td>
-                      <a href="control/update_categoria.php?idcategoria=<?php echo $row['idcategoria']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
+                      <a href="control/update_categoria.php?idcategoria=<?php echo $row['idcategoria']?>"class="btn btn-secondary"><i class="fas fa-edit"></i> Editar</a>
                     </td>
                 </tr>
 
@@ -101,4 +101,15 @@
             }
         } );
     } );
+</script>
+
+<script> 
+    $(document).ready(function() {
+        $('#btnAgregar').submit(function() {
+            $(this).prop("disabled", true);
+            $(this).html(
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+            );
+        });
+    });
 </script>

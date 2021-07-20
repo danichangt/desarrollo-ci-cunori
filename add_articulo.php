@@ -39,7 +39,7 @@
                   </div>
                   <label for="areaemp_idarea">Categoría:</label>
                   <div class="input-group mb-1">
-                          <select class="custom-select" id="categoria" name="categoria">
+                          <select class="custom-select" id="categoria" name="categoria" required>
                             <?php
 
                               $query = "select * from categoria order by descripcion asc";
@@ -53,7 +53,7 @@
                   <div class="text-center"><span><a href="categoria_vw.php">Nueva categoría</a></span></div>
                   <label for="tipo_bien">Tipo de Bien:</label>
                   <div class="input-group mb-1">
-                          <select class="custom-select" id="tipo_bien" name="tipo_bien">
+                          <select class="custom-select" id="tipo_bien" name="tipo_bien" required>
                             <?php
 
                               $query = "select * from tipo order by descripcion asc";
@@ -67,13 +67,13 @@
                   <div class="text-center"><span><a href="tipo_bien_vw.php">Nuevo tipo de bien</a></span></div>
                   <div class="input-group mb-3 mt-4">
                       <span class="input-group-text">Q</span>
-                      <input type="number" name="valor" class="form-control" placeholder="Valor" min="0" step="0.01">
+                      <input type="number" name="valor" class="form-control" placeholder="Valor" min="0" step="0.01" required>
                   </div>
                   <label>Fecha de ingreso:</label>
                   <div class="form-group">
-                      <input type="date" name="fecha_ingreso" class="form-control">
+                      <input type="date" name="fecha_ingreso" class="form-control" required>
                   </div>
-                  <input type="submit" class="btn btn-primary btn-block" name="create_articulo" value="Agregar">
+                  <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="create_articulo">Agregar</button>
               </form>
             </div>
             </div>
@@ -95,7 +95,7 @@
       <?php session_unset(); } ?>
       <!-- MESSAGES -->
 
-      <table class="table table-bordered text-center" id="inventario_anual">
+      <table class="table table-responsive-lg table-bordered text-center" id="inventario_anual">
         <thead>
           <tr>
             <th>No. de Clave de Control</th>
@@ -128,11 +128,28 @@
                 <td><?php echo $row['categoria']; ?></td>
                 <td><?php echo $row['tipo_bien_descripcion']; ?></td>
                 <td><?php echo $row['fecha_ingreso']; ?></td>
-                <td><?php echo $row['activo']; ?></td>
-                <td><?php echo $row['disponible']; ?></td>
+                <?php
+
+                  if ($row['activo'] == 1) { ?>
+                    <td><i class="fas fa-check fa-2x" style = "color: green"></i></td>
+                <?php }else{ ?>
+                    <td><i class="fas fa-times fa-2x" style = "color: red"></i></td>
+                <?php } ?>
+                <?php 
+
+                  if ($row['disponible'] != 1 || $row['activo'] != 1) { ?>
+                    <td><i class="fas fa-times fa-2x" style = "color: red"></i></td>
+                <?php }else{ ?>
+                    <td><i class="fas fa-check fa-2x" style = "color: green"></i></td>
+                <?php } ?>
                 <td>
-                  <a href="asignaciones_vw.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-success"><i class="fas fa-user-plus"></i>Asignar</a>
-                  <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
+                  <?php 
+                    if ($row['disponible'] != 1 || $row['activo'] != 1) { ?>
+                      <a href="asignaciones_vw.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-success disabled"><i class="fas fa-user-plus"></i> Asignar</a>
+                  <?php }else{ ?>
+                     <a href="asignaciones_vw.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-success"><i class="fas fa-user-plus"></i> Asignar</a>
+                  <?php } ?>
+                  <a href="control/update_articulo.php?idarticulo=<?php echo $row['idarticulo']?>" class="btn btn-secondary"><i class="fas fa-edit"></i> Editar</a>
                 </td>
               </tr>
 
@@ -146,6 +163,7 @@
 </main>
 
 <?php include("partials/footer.php")?>
+
 <script >
     $(document).ready(function() {
         $('#inventario_anual').DataTable( {
@@ -154,4 +172,15 @@
             }
         } );
     } );
+</script>
+
+<script> 
+    $(document).ready(function() {
+        $('#btnAgregar').submit(function() {
+            $(this).prop("disabled", true);
+            $(this).html(
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+            );
+        });
+    });
 </script>

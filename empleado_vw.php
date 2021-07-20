@@ -10,10 +10,10 @@
             <h1>Empleados</h1>
     </div>    
     <div class="row">
-        <div class="col-md-8 mx-auto mb-3">
+        <div class="col-md-10 mx-auto mb-3">
             <div class="mb-2">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#empleado">
-                    <i class="fas fa-plus"></i> Agregar Empleado
+                    <i class="fas fa-plus"></i> Agregar
                 </button>
             </div>
 
@@ -32,7 +32,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Nuevo Empleado</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Nuevo Registro</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -66,7 +66,7 @@
                                         </select>
                                     </div>
                                     <div class="text-center mb-3"><span><a href="areaemp_vw.php">Nueva área</a></span></div>
-                                    <input type="submit" class="btn btn-primary btn-block" name="create_empleado" value="Agregar">
+                                    <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="create_empleado">Agregar</button>
                                 </form>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                 </div>
             </div>
             
-            <table class="table table-bordered text-center" id="empleados">
+            <table class="table table-responsive-lg table-bordered text-center" id="empleados">
                 <thead>
                     <tr>
                         <th>DPI</th>
@@ -102,7 +102,8 @@
                                 <td><?php echo $row['apellidos']; ?></td>
                                 <td><?php echo $row['descripcion']; ?></td>
                                 <td>
-                                    <a href="control/update_empleado.php?idempleado=<?php echo $row['idempleado']?>"class="btn btn-secondary"><i class="fas fa-edit"></i>Editar</a>
+                                    <a href="control/list_asignaciones_empleado.php?idempleado=<?php echo $row['idempleado']?>"class="btn btn-success"><i class="fas fa-clipboard-list"></i> Asignaciones</a>
+                                    <a href="control/update_empleado.php?idempleado=<?php echo $row['idempleado']?>"class="btn btn-secondary"><i class="fas fa-edit"></i> Editar</a>
                                 </td>
                             </tr>
 
@@ -122,4 +123,15 @@
             }
         } );
     } );
+</script>
+
+<script> 
+    $(document).ready(function() {
+        $('#btnAgregar').submit(function() {
+            $(this).prop("disabled", true);
+            $(this).html(
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+            );
+        });
+    });
 </script>

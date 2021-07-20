@@ -7,7 +7,7 @@
         <h1>Inventario General</h1>
     </div>
     <div class="col-md-10 mx-auto mt-4">
-        <table class="table table-bordered text-center" id="inventario_general" >
+        <table class="table table-responsive-lg table-bordered text-center" id="inventario_general">
             <thead>
                 <tr>
                     <th>No. de Clave de Control</th>
@@ -35,8 +35,20 @@
                         <td><?php echo $row['valor']; ?></td>
                         <td><?php echo $row['tipo_bien_descripcion']; ?></td>
                         <td><?php echo $row['fecha_ingreso']; ?></td>
-                        <td><?php echo $row['activo']; ?></td>
-                        <td><?php echo $row['disponible']; ?></td>
+                        <?php
+
+                        if ($row['activo'] == 1) { ?>
+                            <td><i class="fas fa-check fa-2x" style = "color: green"></i></td>
+                        <?php }else{ ?>
+                            <td><i class="fas fa-times fa-2x" style = "color: red"></i></td>
+                        <?php } ?>
+                        <?php 
+
+                        if ($row['disponible'] != 1 || $row['activo'] != 1) { ?>
+                            <td><i class="fas fa-times fa-2x" style = "color: red"></i></td>
+                        <?php }else{ ?>
+                            <td><i class="fas fa-check fa-2x" style = "color: green"></i></td>
+                        <?php } ?>
                     </tr>
                 <?php } ?>                
             </tbody>

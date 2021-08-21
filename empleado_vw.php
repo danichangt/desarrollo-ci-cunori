@@ -1,10 +1,16 @@
-<?php include('database.php');?>
+<?php 
+require 'database.php';
+
+if (!isset($_SESSION['rol'])) {
+  header('location: login.php');
+}
+?>
 
 <?php include("partials/header.php")?>
 
 <?php include("partials/navbar.php")?>
 
-
+<body>
 <main class="container-fluid p-4">
     <div class="text-center mb-4">
             <h1>Empleados</h1>
@@ -25,7 +31,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-            <?php session_unset(); } ?>
+            <?php unset($_SESSION['message']); } ?>
             <!-- MESSAGES -->    
 
             <div class="modal fade" id="empleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -101,19 +107,21 @@
                                 <td><?php echo $row['nombres']; ?></td>
                                 <td><?php echo $row['apellidos']; ?></td>
                                 <td><?php echo $row['descripcion']; ?></td>
-                                <td>
-                                    <a href="control/list_asignaciones_empleado.php?idempleado=<?php echo $row['idempleado']?>"class="btn btn-success"><i class="fas fa-clipboard-list"></i> Asignaciones</a>
-                                    <a href="control/update_empleado.php?idempleado=<?php echo $row['idempleado']?>"class="btn btn-secondary"><i class="fas fa-edit"></i> Editar</a>
+                                <td class="align-center" style="width: 100px">
+                                    <span data-toggle="tooltip" data-placement="top" title="Asignaciones"><button type="button" onclick="location.href='control/list_asignaciones_empleado.php?idempleado=<?php echo $row['idempleado']?>'" 
+                                    class="btn btn-success" style="width: 44px"><i class="fas fa-clipboard-list"></i></button></span>
+                                    <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
+                                    data-target="#Modal_empleado<?php echo $row['idempleado']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
                                 </td>
                             </tr>
-
+                            <?php include('modals/update_empleado.php'); ?>
                     <?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
 </main>
-
+</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
@@ -124,7 +132,11 @@
         } );
     } );
 </script>
-
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 <script> 
     $(document).ready(function() {
         $('#btnAgregar').submit(function() {

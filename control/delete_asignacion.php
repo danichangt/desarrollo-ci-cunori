@@ -6,7 +6,7 @@
         $query_idarticulo = "select articulo_idarticulo from asignacion where idasignacion = $idasignacion";
         $idarticulo_result = mysqli_query($conn, $query_idarticulo);
         $idarticulo = $idarticulo_result->fetch_array()['articulo_idarticulo'];
-        $query = "delete from asignacion where idasignacion = $idasignacion";
+        $query = "update asignacion set estado = 0 where idasignacion = $idasignacion";
         $result = mysqli_query($conn, $query);
 
         if(!$result){

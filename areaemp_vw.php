@@ -1,7 +1,12 @@
-<?php include('database.php')?>
+<?php require 'database.php';
+
+if (!isset($_SESSION['rol'])) {
+  header('location: login.php');
+}
+?>
 <?php include("partials/header.php")?>
 <?php include("partials/navbar.php")?>
-
+<body>
 <main class="container-fluid p-4">
   <div class="text-center mb-4">
     <h1>Áreas de Empleados</h1>
@@ -49,7 +54,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <?php session_unset(); } ?>
+      <?php unset($_SESSION['message']); } ?>
       <!-- MESSAGES -->
       <table class="table table-responsive-lg table-bordered text-center" id="area_emp">
         <thead>
@@ -67,17 +72,19 @@
 
                 <tr>
                     <td><?php echo $row['descripcion']; ?></td>
-                    <td>
-                      <a href="control/update_areaemp.php?idarea=<?php echo $row['idarea']?>"class="btn btn-secondary"><i class="fas fa-edit"></i> Editar</a>
+                    <td class="align-center" style="width: 100px">
+                    <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
+                    data-target="#Modal_areaemp<?php echo $row['idarea']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
                     </td>
                 </tr>
+                <?php include('modals/update_areaemp.php'); ?>
             <?php } ?>
         </tbody>
       </table>
     </div>
   </div>
 </main>
-
+</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
@@ -88,7 +95,11 @@
         } );
     } );
 </script>
-
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 <script> 
     $(document).ready(function() {
         $('#btnAgregar').submit(function() {

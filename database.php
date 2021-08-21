@@ -13,4 +13,6 @@
         '@@Kyubi07@@',
         'ci_cunori'
       ) or die(mysqli_erro($mysqli));
+
+      mysqli_set_charset($conn, "utf8");
 ?>

@@ -14,7 +14,7 @@
             die("Consulta ha fallado.");
         }
 
-        $_SESSION['message'] = '¡Categoría agregada exitosamente!';
+        $_SESSION['message'] = '¡Registro creado!';
         $_SESSION['message_type'] = 'success';
 
         header('Location: ../categoria_vw.php');

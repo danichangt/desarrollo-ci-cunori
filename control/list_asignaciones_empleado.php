@@ -46,7 +46,7 @@
                 <label class="text-left"><strong>Área de Empleado: </strong><?php echo $ae_descripcion ?></label>
             </div>
             <div class="text-right mb-2">
-                <a href="../reports/report_asignaciones.php?idempleado=<?php echo $idempleado ?>" class="btn btn-success"><i class="fas fa-file-pdf"></i> Generar Reporte</a>
+                <button type="button" onclick="window.open('../reports/report_asignaciones.php?idempleado=<?php echo $idempleado ?>')" class="btn btn-success"><i class="fas fa-file-pdf"></i> Generar Reporte</button>
             </div>
             <table class="table table-responsive-lg table-bordered text-center" id="tb_lista">
                 <thead>
@@ -62,7 +62,7 @@
                     <?php 
 
                         $query2 = "select a.fecha_asignacion, a.tarjeta_responsable, b.no_clave_control, b.descripcion, b.valor from asignacion a inner join articulo b 
-                        on a.articulo_idarticulo = b.idarticulo where a.empleado_idempleado = $idempleado order by a.fecha_asignacion asc";
+                        on a.articulo_idarticulo = b.idarticulo where a.empleado_idempleado = $idempleado and a.estado = 1 order by a.fecha_asignacion asc";
                         $result2 = mysqli_query($conn, $query2);
                         while ($row = mysqli_fetch_assoc($result2)) {?>
                             <tr>

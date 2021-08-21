@@ -1,50 +1,50 @@
 <?php
-    require 'database.php';
+    include('database.php');
 
-    $message = '';
-
-    if (!empty($_POST['usuario']) && !empty($_POST['clave'])){
-        $sql = "insert into usuario (usuario, clave) values(:usuario, :clave)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':usuario', $_POST['usuario']);
+    if (isset($_POST['create_usuario'])){
+        $usuario = $_POST['usuario'];
         $clave = password_hash($_POST['clave'], PASSWORD_BCRYPT);
-        $stmt->bindParam(':clave', $clave);
+        $nombres = $_POST['nombres'];
+        $apellidos = $_POST['apellidos'];
 
-        if ($stmt->execute()) {
-            $message = 'Usuario creado satisfactoriamente.';
-        }else{
-            $message = 'Ha ocurrido un error creando su cuenta.';
+        $sql = "insert into usuario(usuario, nombres, apellidos, clave) values('$usuario', '$nombres', '$apellidos', '$clave')";
+        $result = mysqli_query($conn, $sql);
+
+        if (!$result) {
+            die("Consulta ha fallado.");
         }
+        header('location: add_articulo.php');
     }
 ?>
 <?php include("partials/header.php")?>
-
-    <?php include("partials/navbar.php")?>
-    <div class="container p-5">
-        
+<body class="m-0 row vh-100 justify-content-center align-items-center">
+    <div class="container p-4">
         <div class="row">
-
-            
-            <div class="col-md-4 offset-md-4">
-                
+            <div class="col-md-5 mx-auto">
                 <div class="card card-body text-center">
-                    <h1>Registrarse</h1>
-                    <span><a href="login.php">Iniciar Sesión</a></span>
+                    <div class="mb-4">
+                        <img src="images/cunori.png" alt="" width="200" height="210">
+                    </div>
+                    <h3>Registrarse</h3>
                     <form action="signup.php" method="POST">
                         <div class="form-group">
-                                <input type="email" name="usuario" class="form-control" placeholder="Correo electrónico" autofocus>
+                            <input type="email" name="usuario" class="form-control" placeholder="Correo electrónico" autofocus required>
                         </div>
                         <div class="form-group">
-                                <input type="password" name="clave" class="form-control" placeholder="Contraseña" autofocus>
+                            <input type="password" name="clave" class="form-control" placeholder="Contraseña" required>
                         </div>
-                        <input type="submit" class="btn btn-primary btn-block" name="registrar" value="Registrarse">
+                        <div class="form-group">
+                            <input type="text" name="nombres" class="form-control" placeholder="Nombres" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="apellidos" class="form-control" placeholder="Apellidos" required>
+                        </div>
+                        <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="create_usuario">Registrarse</button>
                     </form>
-
+                    <div class="mt-4"><span><a href="login.php">Iniciar Sesión</a></span></div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
+</body>
 <?php include("partials/footer.php")?>

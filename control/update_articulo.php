@@ -10,22 +10,6 @@
     $fecha_ingreso = '';
     $activo = '';
 
-    if (isset($_GET['idarticulo'])) {
-        $idarticulo = $_GET['idarticulo'];
-        $query = "select idarticulo, no_clave_control, descripcion, categoria_idcategoria, tipo_idtipo, valor, fecha_ingreso from articulo where idarticulo = $idarticulo";
-        $result = mysqli_query($conn, $query);
-        if (mysqli_num_rows($result) == 1) {
-            $row = mysqli_fetch_array($result);
-            $no_clave_control = $row['no_clave_control'];
-            $descripcion = $row['descripcion'];
-            $categoria_idcategoria = $row['categoria_idcategoria'];
-            $tipo_idtipo = ['tipo_idtipo'];
-            $valor = $row['valor'];
-            $fecha_ingreso = $row['fecha_ingreso'];
-        }
-
-    }
-
     if (isset($_POST['actualizar'])) {
         $idarticulo = $_GET['idarticulo'];
         $no_clave_control = $_POST['no_clave_control'];
@@ -40,81 +24,9 @@
                     tipo_idtipo = $tipo_idtipo, valor = $valor, fecha_ingreso = '$fecha_ingreso', activo = $activo where idarticulo = $idarticulo";
         mysqli_query($conn, $query);
 
-        $_SESSION['message'] = '¡Artículo editado exitosamente!';
+        $_SESSION['message'] = '¡Registro actualizado!';
         $_SESSION['message_type'] = 'info';
         header('Location: ../add_articulo.php');
     }
 
 ?>
-
-<?php include('../partials/header.php')?>
-<?php include('../partials/navbar.php')?>
-
-<main class="container-fluid p-4">
-  <div class="row">
-    <div class="col-md-4 mx-auto mb-3">
-      
-
-      <div class="card card-body">
-      <h1>Actualizar Bienes</h1>
-        <form action="update_articulo.php?idarticulo=<?php echo $_GET['idarticulo']?>" method="POST">
-            <label for="no_clave_control">No. Clave de Control: </label>
-            <div class="form-group">
-                <input type="text" name="no_clave_control" class="form-control" value="<?php echo $row['no_clave_control']?>" placeholder="No. de Clave de Control" autofocus required>
-            </div>
-            <label for="descripcion">Descripción: </label>
-            <div class="form-group">
-            <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" required><?php echo $row['descripcion']?></textarea>
-            </div>
-            <label for="valor">Valor: </label>
-            <div class="input-group mb-3">
-                <span class="input-group-text">Q</span>
-                <input type="number" name="valor" class="form-control" value="<?php echo $row['valor']?>" placeholder="Valor" min="0" step="0.01" required>
-            </div>
-            <label for="fecha_ingreso">Fecha de Ingreso: </label>
-            <div class="form-group">
-                <input type="date" name="fecha_ingreso" value="<?php echo $row['fecha_ingreso']?>" class="form-control" required>
-            </div>
-            <label for="categoria_idcategoria">Categoría: </label>
-            <div class="input-group mb-1">
-                    <select class="custom-select" id="categoria" name="categoria_idcategoria" required>
-                      <?php
-
-                        $query2 = "select * from categoria order by descripcion asc";
-                        $result_categoria = mysqli_query($conn, $query2);
-
-                        while($row = mysqli_fetch_assoc($result_categoria)){?>
-                          <option value="<?php echo $row['idcategoria']?>"><?php echo $row['descripcion']?></option>
-                        <?php } ?>
-                    </select>
-            </div>
-            <label for="tipo_idtipo">No. Clave de Control: </label>
-            <div class="input-group mb-1">
-                    <select class="custom-select" id="tipo_bien" name="tipo_idtipo"required>
-                      <?php
-
-                        $query3 = "select * from tipo order by descripcion asc";
-                        $result_tipo = mysqli_query($conn, $query3);
-
-                        while($row = mysqli_fetch_assoc($result_tipo)){?>
-                          <option value="<?php echo $row['idtipo']?>"><?php echo $row['descripcion']?></option>
-                        <?php } ?>
-                    </select>
-            </div>
-            <label for="activo">Activo: </label>
-            <div class="input-group mb-3">
-              <select class="custom-select" id="activo" name="activo" required>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-              </select>
-            </div>
-            
-            <button class="btn btn-success btn-block" name="actualizar">Actualizar</button>
-
-        </form>
-      </div>
-    </div>
-    </div>
-</main>
-
-<?php include('../partials/footer.php')?>

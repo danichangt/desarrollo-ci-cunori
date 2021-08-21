@@ -1,7 +1,13 @@
-<?php require 'database.php'?>
+<?php 
+require 'database.php';
+
+if (!isset($_SESSION['rol'])) {
+  header('location: login.php');
+}
+?>
 <?php include("partials/header.php")?>
 <?php include("partials/navbar.php")?>
-
+<body>
 <main class="container-fluid p-4">
     <div class="text-center mb-4">
         <h1>Inventario General</h1>
@@ -23,7 +29,8 @@
             
                 <?php
 
-                    $query = "select a.idarticulo, a.no_clave_control, a.descripcion, a.valor, t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t on a.tipo_idtipo = t.idtipo;";
+                    $query = "select a.idarticulo, a.no_clave_control, a.descripcion, a.valor, t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible 
+                    from articulo a inner join tipo t on a.tipo_idtipo = t.idtipo order by a.fecha_ingreso asc";
                     $result_articulo = mysqli_query($conn, $query);
 
                     while($row = mysqli_fetch_assoc($result_articulo)){?>
@@ -34,7 +41,7 @@
                         <td><?php echo $row['descripcion']; ?></td>
                         <td><?php echo $row['valor']; ?></td>
                         <td><?php echo $row['tipo_bien_descripcion']; ?></td>
-                        <td><?php echo $row['fecha_ingreso']; ?></td>
+                        <td style="width: 100px"><?php echo $row['fecha_ingreso']; ?></td>
                         <?php
 
                         if ($row['activo'] == 1) { ?>
@@ -55,11 +62,12 @@
         </table>
     </div>
 </main>
-    
+</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
         $('#inventario_general').DataTable( {
+            order: [[ 4, "asc" ]],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
             }

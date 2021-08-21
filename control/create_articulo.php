@@ -10,8 +10,9 @@
         $tipo_bien = $_POST['tipo_bien'];
         $valor = $_POST['valor'];
         $fecha_ingreso = $_POST['fecha_ingreso'];
+        $folio = $_POST['folio'];
 
-        $query = "insert into articulo(no_clave_control, descripcion, valor, fecha_ingreso, categoria_idcategoria, tipo_idtipo) values ('$no_clave_control', '$descripcion', $valor, '$fecha_ingreso', '$categoria', $tipo_bien)";
+        $query = "insert into articulo(no_clave_control, descripcion, valor, fecha_ingreso, folio, categoria_idcategoria, tipo_idtipo) values ('$no_clave_control', '$descripcion', $valor, '$fecha_ingreso', $folio, '$categoria', $tipo_bien)";
         $result = mysqli_query($conn, $query);
 
         if (!$result) {
@@ -20,9 +21,9 @@
             
         }
 
-        $_SESSION['message'] = '¡Artículo agregado exitosamente!';
+        $_SESSION['message'] = '¡Registro creado!';
         $_SESSION['message_type'] = 'success';
-        header('Location: ../add_articulo.php');
+        header('location: ../add_articulo.php');
     }
 
 ?>

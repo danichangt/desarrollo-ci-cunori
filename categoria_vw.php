@@ -1,10 +1,18 @@
-<?php include('database.php');?>
+<?php 
+require 'database.php';
+
+if (!isset($_SESSION['rol'])) {
+  header('location: login.php');
+} 
+
+?>
+
 
 <?php include("partials/header.php")?>
 
 <?php include("partials/navbar.php")?>
 
-
+<body>
 <main class="container-fluid p-4">
   <div class="text-center mb-4">
     <h1>Categorías</h1>
@@ -28,7 +36,6 @@
               </button>
             </div>
             <div class="modal-body">
-            <div>
               <div class="card card-body text-center">
                 <form action="control/create_categoria.php" method="POST">
                     <div class="form-group">
@@ -41,13 +48,13 @@
                 </form>
               </div>
             </div>
-            </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>
       </div>
+
       <!-- MESSAGES -->
       <?php if (isset($_SESSION['message'])) { ?>
         <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
@@ -56,8 +63,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <?php session_unset(); } ?>
+      <?php unset($_SESSION['message']); } ?>
       <!-- MESSAGES -->
+
       <table class="table table-responsive-lg table-bordered text-center" id="categorias">
         <thead>
           <tr>
@@ -70,7 +78,7 @@
 
             <?php
 
-                $query = "select * from categoria";
+                $query = "select idcategoria, codigo_control, descripcion from categoria";
                 $result_cagoria = mysqli_query($conn, $query);
 
                 while($row = mysqli_fetch_assoc($result_cagoria)){?>
@@ -78,10 +86,12 @@
                 <tr>
                     <td><?php echo $row['codigo_control']; ?></td>
                     <td><?php echo $row['descripcion']; ?></td>
-                    <td>
-                      <a href="control/update_categoria.php?idcategoria=<?php echo $row['idcategoria']?>"class="btn btn-secondary"><i class="fas fa-edit"></i> Editar</a>
+                    <td class="align-center" style="width: 100px">
+                      <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
+                      data-target="#Modal_categoria<?php echo $row['idcategoria']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
                     </td>
                 </tr>
+                <?php include('modals/update_categoria.php'); ?>
 
             <?php } ?>
 
@@ -90,8 +100,7 @@
     </div>
   </div>
 </main>
-
-
+</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
@@ -102,7 +111,11 @@
         } );
     } );
 </script>
-
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 <script> 
     $(document).ready(function() {
         $('#btnAgregar').submit(function() {

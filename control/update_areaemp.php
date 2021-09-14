@@ -1,22 +1,34 @@
 <?php 
 
-    include("../database.php"); 
-
-
-    $idarea ='';
-    $descripcion = '';
-
+    require("../database.php"); 
 
     if (isset($_POST['actualizar'])) {
-        $idarea = $_GET['idarea'];
-        $descripcion = $_POST['descripcion'];
+        if (!empty($_POST['descripcion'])) {
 
-        $query = "update areaemp set descripcion = '$descripcion' where idarea = $idarea";
-        mysqli_query($conn, $query);
+            $stmt = $conn->prepare("update areaemp set descripcion = ? where idarea = ?");
+            $stmt->bind_param("si", $descripcion, $idarea);
+            $descripcion = $_POST['descripcion'];
+            $idarea = $_GET['idarea'];
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+            if (count($result) > 0) {
+                $_SESSION['message'] = '¡Registro actualizado!';
+                $_SESSION['message_type'] = 'info';
 
-        $_SESSION['message'] = '¡Registro actualizado!';
-        $_SESSION['message_type'] = 'info';
-        header('Location: ../areaemp_vw.php');
+                header('location: ../areaemp_vw.php');
+                $conn->close();
+            }else{
+                $conn->close();
+                die("Consulta ha fallado.");
+            }
+        }else{
+            $_SESSION['message'] = 'Debe completar todos los campos.';
+            $_SESSION['message_type'] = 'danger';
+
+            header('location: ../areaemp_vw.php');
+        }
+  
     }
 
 ?>

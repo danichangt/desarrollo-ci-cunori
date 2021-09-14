@@ -56,10 +56,14 @@
                                 <td><?php echo $row['no_factura']?></td>
                                 <td>Q<?php echo $row['valor_neto']?></td>
                                 <td class="align-center" style="width: 100px">
+                                    <?php if ($_SESSION['crear'] == 1) { ?>
                                     <span data-toggle="tooltip" data-placement="top" title="Reporte"><button type="button" onclick="window.open('reports/report_mantenimiento.php?idmantenimiento=<?php echo $row['idmantenimiento']; ?>')" 
                                     class="btn btn-success" style="width: 44px"><i class="fas fa-print"></i></button></span>
+                                    <?php } ?>
+                                    <?php if ($_SESSION['editar'] == 1) { ?>
                                     <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
                                     data-target="#Modal_mantenimiento<?php echo $row['idmantenimiento']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
+                                    <?php } ?>
                                 </td>
                             </tr>
                             <?php include('modals/update_mantenimiento.php'); ?>
@@ -69,7 +73,6 @@
         </div>
     </div>
 </main>
-</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {

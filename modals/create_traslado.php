@@ -33,7 +33,7 @@
       </div>
       <div class="modal-body">
       <div class="card card-body">
-                <div class="text-center mb-4">
+                <div class="text-center">
                     <h5>Datos de la Asignación</h5>
                 </div>
                 <form action="./control/create_asignacion.php?idasignacion=<?php echo $idasignacion ?>" method="POST">

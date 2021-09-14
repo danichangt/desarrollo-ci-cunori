@@ -10,6 +10,9 @@
       </div>
       <div class="modal-body">
         <div class="card card-body">
+                <div class="text-center">
+                    <h5>Datos del Bien</h5>
+                </div>
                 <form action="./control/create_asignacion.php?idarticulo=<?php echo $row['idarticulo']?>" method="POST">
                     <label for="no_clave_control">No. Clave de Control: </label>
                     <div class="form-group">
@@ -35,6 +38,9 @@
                     <label for="tipo_bien">Tipo de Bien: </label>
                     <div class="form-group">
                         <input type="text" name="tipo_bien" class="form-control" value="<?php echo $row['tipo_bien_descripcion']?>" readonly>
+                    </div>
+                    <div class="text-center mt-4">
+                        <h5>Datos de la Asignación</h5>
                     </div>
                     <label for="tipo_bien">No. de Tarjeta de Responsable: </label>
                     <div class="form-group">

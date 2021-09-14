@@ -1,21 +1,34 @@
 <?php
 
-    include('../database.php');
+    require('../database.php');
 
-    if (isset($_POST['create_areaemp'])) {
-        $descripcion = $_POST['descripcion'];
+    if (isset($_POST)) {
+        if (!empty($_POST['descripcion'])) {
+            
+            $stmt = $conn->prepare("insert into areaemp (descripcion) values (?)");
+            $stmt->bind_param("s",$descripcion);
+            $descripcion = $_POST['descripcion'];
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+            
+            if (count($result) > 0) {
+                $_SESSION['message'] = '¡Registro creado!';
+                $_SESSION['message_type'] = 'success';
 
-        $query = "insert into areaemp(descripcion) values('$descripcion')";
-        $result = mysqli_query($conn, $query);
+                header('location: ../areaemp_vw.php');
 
-        if (!$result) {
-            die("Consulta ha fallado.");
+                $conn->close();
+            }else{
+                $conn->close();
+                die("Consulta ha fallado.");
+            }
+        }else{
+            $_SESSION['message'] = 'Debe completar todos los campos.';
+            $_SESSION['message_type'] = 'danger';
+
+            header('location: ../areaemp_vw.php');
         }
-
-        $_SESSION['message'] = '¡Registro creado!';
-        $_SESSION['message_type'] = 'success';
-
-        header('Location: ../areaemp_vw.php');
     }
 
 ?>

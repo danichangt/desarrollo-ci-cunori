@@ -1,27 +1,35 @@
 <?php 
-    include('../database.php');
-
-    $idasignacion = '';
-    $fecha_asignacion = '';
-    $autorizacion = '';
-    $seccion = '';
+    require('../database.php');
 
     if (isset($_POST['actualizar'])) {
-        $idasignacion = $_GET['idasignacion'];
-        $fecha_asignacion = $_POST['fecha_asignacion'];
-        $autorizacion = $_POST['autorizacion'];
-        $seccion = $_POST['seccion'];
+        if (!empty($_POST['fecha_asignacion']) && !empty($_POST['fecha_asignacion']) && !empty($_POST['fecha_asignacion']) ) {
 
-        $query = "update asignacion set fecha_asignacion = '$fecha_asignacion', autorizacion = '$autorizacion', seccion = '$seccion' where idasignacion = $idasignacion";
-        $result = mysqli_query($conn, $query);
-        if (!$result) {
-            die("fallo");
+            $stmt = $conn->prepare("update asignacion set fecha_asignacion = ?, autorizacion = ?, seccion = ? where idasignacion = ?");
+            $stmt->bind_param("sssi", $fecha_asignacion, $autorizacion, $seccion, $idasignacion);
+            $idasignacion = $_GET['idasignacion'];
+            $fecha_asignacion = $_POST['fecha_asignacion'];
+            $autorizacion = $_POST['autorizacion'];
+            $seccion = $_POST['seccion'];
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+            if (count($result) > 0) {
+                $_SESSION['message'] = '¡Registro actualizado!';
+                $_SESSION['message_type'] = 'info';
+
+                header('location: ../traslados_tb.php');
+                $conn->close();
+            }else{
+                $conn->close();
+                die("Consulta ha fallado.");
+            }
+        }else{
+            $_SESSION['message'] = 'Debe completar todos los campos.';
+            $_SESSION['message_type'] = 'danger';
+
+            header('location: ../traslados_tb.php');
         }
-
-        $_SESSION['message'] = '¡Registro actualizado!';
-        $_SESSION['message_type'] = 'info';
-
-        header('Location: ../traslados_tb.php');
+        
     }
 
 ?>

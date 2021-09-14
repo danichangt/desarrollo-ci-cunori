@@ -15,7 +15,7 @@
 
         $_SESSION['message'] = '¡Registro actualizado!';
         $_SESSION['message_type'] = 'info';
-        header('Location: ../tipo_bien_vw.php');
+        header('location: ../tipo_bien_vw.php');
     }
 
 ?>

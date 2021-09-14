@@ -9,10 +9,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="card card-body text-center">
+        <div class="card card-body">
             <form action="./control/update_tipo.php?idtipo=<?php echo $row['idtipo']; ?>" method="POST">
+            <label>Descripción: </label>
             <div class="form-group">
-                <textarea name="descripcion" class="form-control" cols="30" rows="10" required><?php echo $row['descripcion'] ?></textarea>
+                <textarea name="descripcion" class="form-control" rows="5" required><?php echo $row['descripcion'] ?></textarea>
             </div>
             <button class="btn btn-success btn-block" name="actualizar">Actualizar</button>
             </form>

@@ -1,19 +1,43 @@
 <?php
   
     require 'database.php';
-    $rol = '';
+
+    if(isset($_SESSION['rol'])){
+        session_unset();
+
+        session_destroy();
+  
+        header('Location: login.php');
+    }
 
     if(isset($_POST['iniciar_sesion'])){
         $usuario = $_POST['usuario'];
-        $sql = "select idusuario, usuario, clave, rol_idrol from usuario where usuario = '$usuario'";
+        $sql = "select idusuario, usuario, clave, estado, crear, leer, editar, eliminar, rol_idrol from usuario inner join 
+        rol on rol_idrol = idrol where usuario = '$usuario'";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             $rol = $row['rol_idrol'];
+            $user = $row['idusuario'];
+            $crear = $row['crear'];
+            $leer = $row['leer'];
+            $editar = $row['editar'];
+            $eliminar = $row['eliminar'];
+            $estado = $row['estado'];
             if (count($row) > 0 && password_verify($_POST['clave'], $row['clave'])) {
-                $_SESSION['rol'] = $rol;
-                header('location: add_articulo.php');
+                if ($estado == 1) {
+                    $_SESSION['rol'] = $rol;
+                    $_SESSION['user'] = $user;
+                    $_SESSION['crear'] = $crear;
+                    $_SESSION['leer'] = $leer;
+                    $_SESSION['editar'] = $editar;
+                    $_SESSION['eliminar'] = $eliminar;
+                    header('location: add_articulo.php');
+                }else{
+                    $_SESSION['message'] = 'El usuario debe ser activado por el administrador.';
+                    $_SESSION['message_type'] = 'danger';
+                }
             }else{
                 $_SESSION['message'] = 'El usuario y/o contraseña no son válidos.';
                 $_SESSION['message_type'] = 'danger';
@@ -52,11 +76,10 @@
                                 <input type="password" name="clave" class="form-control" placeholder="Contraseña" autofocus>
                         </div>
                         <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="iniciar_sesion">Iniciar Sesión</button>
+                        <span><a href="recuperar_clave.php">¿Olvidaste tu contraseña?</a></span>
                     </form>
-                    <div class="mt-4"><span><a href="signup.php">Registrarse</a></span></div>
                 </div>
             </div>
         </div>
 </div>
-</body>
 <?php include("partials/footer.php")?>

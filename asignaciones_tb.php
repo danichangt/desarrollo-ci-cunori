@@ -63,8 +63,11 @@
                                 <td><?php echo $row['area'] ?></td>
                                 <td class="align-center" style="width: 250px">
                                     <?php if ($row['estado'] == 1) { ?>
+                                        <?php if ($_SESSION['eliminar'] == 1) { ?>
                                         <span data-toggle="tooltip" data-placement="top" title="Anular"><button type="button" class="btn btn-danger" data-toggle="modal" 
                                         data-target="#Modal_delete<?php echo $row['idasignacion']; ?>" style="width: 44px"><i class="fas fa-user-times"></i></button></span>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['crear'] == 1) { ?>
                                         <span data-toggle="tooltip" data-placement="top" title="Mantenimiento"><button type="button" class="btn btn-dark" data-toggle="modal" 
                                         data-target="#Modal_mantenimiento<?php echo $row['idasignacion']; ?>"style="width: 44px"><i class="fas fa-tools"></i></button></span>
                                         <?php if ($row['contador_traslado'] <= 4) { ?>
@@ -72,16 +75,24 @@
                                             data-target="#Modal_traslado<?php echo $row['idasignacion']; ?>" style="width: 44px"><i class="fas fa-arrows-alt-h"></i></button></span>
                                         <?php } else { ?>
                                             <button type="button" class="btn btn-warning" style="color: white" disabled style="width: 44px"><i class="fas fa-arrows-alt-h"></i></button>
-                                        <?php } ?>
+                                        <?php }  }?>
                                     <?php } else { ?>
+                                        <?php if ($_SESSION['eliminar'] == 1) { ?>
                                         <button type="button" class="btn btn-danger" disabled style="width: 44px"><i class="fas fa-user-times"></i></button>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['crear'] == 1) { ?>
                                         <button type="button" class="btn btn-dark" disabled style="width: 44px"><i class="fas fa-tools"></i></button>
                                         <button type="button" class="btn btn-primary" disabled style="width: 44px"><i class="fas fa-arrows-alt-h"></i></button>
+                                        <?php } ?>
                                     <?php } ?>
+                                        <?php if ($_SESSION['crear'] == 1) { ?>
                                         <span data-toggle="tooltip" data-placement="top" title="Reporte"><button type="button" onclick="window.open('reports/report_asignacion.php?idasignacion=<?php echo $row['idasignacion']?>')" 
                                         class="btn btn-success" style="width: 44px"><i class="fas fa-print"></i></button></span>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['editar'] == 1) { ?>
                                         <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
                                         data-target="#Modal_update_asignacion<?php echo $row['idasignacion']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
+                                        <?php } ?>
                                 </td>
                             </tr>
                             <?php include('modals/delete_asignacion.php'); ?>
@@ -94,12 +105,11 @@
         </div>
     </div>
 </main>
-</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
         $('#tabla_asignaciones').DataTable( {
-            order: [[ 1, "asc" ]],
+            order: [[ 1, "desc" ]],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
             }

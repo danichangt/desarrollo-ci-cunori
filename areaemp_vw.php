@@ -13,13 +13,23 @@ if (!isset($_SESSION['rol'])) {
   </div>
   <div class="row">
     <div class="col-md-8 mx-auto mb-3">
-
+      <!-- MESSAGES -->
+      <?php if (isset($_SESSION['message'])) { ?>
+        <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
+          <?= $_SESSION['message']?>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <?php unset($_SESSION['message']); } ?>
+      <!-- MESSAGES -->
+    <?php if ($_SESSION['crear'] == 1) { ?>
       <div class="mb-2">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#area">
           <i class="fas fa-plus"></i> Agregar
         </button>
       </div>
-
+      <?php } ?>
       <div class="modal fade" id="area" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -31,12 +41,23 @@ if (!isset($_SESSION['rol'])) {
             </div>
             <div class="modal-body">
             <div class="card card-body text-center">
-              <form action="control/create_areaemp.php" method="POST">
+              <form id="areaemp_vw" action="control/create_areaemp.php" method="POST">
                   <div class="form-group">
                   <textarea name="descripcion" rows="4" class="form-control" placeholder="Descripción" required></textarea>
                   </div>
-                  <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="create_areaemp">Agregar</button>
+                  <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" >Agregar</button>
               </form>
+              <script> 
+                  $(document).ready(function() {
+                      $('#btnAgregar').click(function() {
+                          $(this).prop("disabled", true);
+                          $(this).html(
+                          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+                          );
+                          $('#areaemp_vw').submit();
+                      });
+                  });
+              </script>
             </div>
             </div>
             <div class="modal-footer">
@@ -45,17 +66,6 @@ if (!isset($_SESSION['rol'])) {
           </div>
         </div>
       </div>
-
-      <!-- MESSAGES -->
-      <?php if (isset($_SESSION['message'])) { ?>
-        <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
-          <?= $_SESSION['message']?>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      <?php unset($_SESSION['message']); } ?>
-      <!-- MESSAGES -->
       <table class="table table-responsive-lg table-bordered text-center" id="area_emp">
         <thead>
           <tr>
@@ -73,8 +83,10 @@ if (!isset($_SESSION['rol'])) {
                 <tr>
                     <td><?php echo $row['descripcion']; ?></td>
                     <td class="align-center" style="width: 100px">
+                    <?php if ($_SESSION['editar'] == 1) { ?>
                     <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
                     data-target="#Modal_areaemp<?php echo $row['idarea']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
+                    <?php } ?>
                     </td>
                 </tr>
                 <?php include('modals/update_areaemp.php'); ?>
@@ -84,7 +96,6 @@ if (!isset($_SESSION['rol'])) {
     </div>
   </div>
 </main>
-</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
@@ -99,14 +110,4 @@ if (!isset($_SESSION['rol'])) {
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
-</script>
-<script> 
-    $(document).ready(function() {
-        $('#btnAgregar').submit(function() {
-            $(this).prop("disabled", true);
-            $(this).html(
-            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
-            );
-        });
-    });
 </script>

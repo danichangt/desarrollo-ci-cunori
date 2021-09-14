@@ -1,6 +1,10 @@
 <?php 
 
-    include('../database.php');
+    require '../database.php';
+
+    if (!isset($_SESSION['rol'])) {
+    header('location: login.php');
+    }
 
     $idempleado = '';
 
@@ -11,26 +15,31 @@
     $ae_descripcion = '';
 
     if(isset($_GET['idempleado'])){
+        
+        $stmt = $conn->prepare("select e.codigo, e.nombres, e.apellidos, ae.descripcion as area from empleado e inner join 
+        areaemp ae on e.areaemp_idarea = ae.idarea where e.idempleado = ?");
+        $stmt->bind_param("i",$idempleado);
         $idempleado = $_GET['idempleado'];
-        $query = "select e.codigo, e.nombres, e.apellidos, ae.descripcion as area from empleado e inner join areaemp ae on e.areaemp_idarea = ae.idarea where e.idempleado = $idempleado";
-        $result = mysqli_query($conn, $query);
-        if (mysqli_num_rows($result) == 1) {
-            $row = mysqli_fetch_array($result);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        if (count($result) > 0) {
+            $row = $result->fetch_assoc();
 
             $codigo = $row['codigo'];
             $nombres = $row['nombres'];
             $apellidos = $row['apellidos'];
-
             $ae_descripcion = $row['area'];
+
+            $result->free_result();
+            
         }
     }
 ?>
-
 <?php include('../partials/header.php')?>
 <?php include('../partials/navbar.php')?>
-
+<body>
 <div class="container-fluid p-4">
-    
     <div class="row">
         <div class="col-md-10 mx-auto">
             <div class="text-center mb-3">
@@ -61,26 +70,30 @@
                 <tbody>
                     <?php 
 
-                        $query2 = "select a.fecha_asignacion, a.tarjeta_responsable, b.no_clave_control, b.descripcion, b.valor from asignacion a inner join articulo b 
-                        on a.articulo_idarticulo = b.idarticulo where a.empleado_idempleado = $idempleado and a.estado = 1 order by a.fecha_asignacion asc";
-                        $result2 = mysqli_query($conn, $query2);
-                        while ($row = mysqli_fetch_assoc($result2)) {?>
+                        $stmt2 = $conn->prepare("select a.fecha_asignacion, a.tarjeta_responsable, b.no_clave_control, b.descripcion, b.valor from asignacion a inner join articulo b 
+                        on a.articulo_idarticulo = b.idarticulo where a.empleado_idempleado = ? and a.estado = 1 order by a.fecha_asignacion asc");
+                        $stmt2->bind_param("i", $idempleado);
+                        $stmt2->execute();
+                        $result2 = $stmt2->get_result();
+                        $stmt2->close();
+                        while ($row2 = $result2->fetch_assoc()) {?>
                             <tr>
-                                <td><?php echo $row['fecha_asignacion'] ?></td>
-                                <td><?php echo $row['tarjeta_responsable'] ?></td>
-                                <td><?php echo $row['no_clave_control'] ?></td>
-                                <td><?php echo $row['descripcion'] ?></td>
-                                <td>Q <?php echo $row['valor'] ?></td>
+                                <td style="width: 100px"><?php echo $row2['fecha_asignacion'] ?></td>
+                                <td><?php echo $row2['tarjeta_responsable'] ?></td>
+                                <td><?php echo $row2['no_clave_control'] ?></td>
+                                <td><?php echo $row2['descripcion'] ?></td>
+                                <td>Q <?php echo $row2['valor'] ?></td>
                             </tr>
-                    <?php } ?>
+                    <?php }
+                        $result2->free_result();
+                        $conn->close();
+                    ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
 <?php include('../partials/footer.php')?>
-
 <script >
     $(document).ready(function() {
         $('#tb_lista').DataTable( {

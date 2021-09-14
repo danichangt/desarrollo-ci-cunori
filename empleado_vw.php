@@ -17,12 +17,6 @@ if (!isset($_SESSION['rol'])) {
     </div>    
     <div class="row">
         <div class="col-md-10 mx-auto mb-3">
-            <div class="mb-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#empleado">
-                    <i class="fas fa-plus"></i> Agregar
-                </button>
-            </div>
-
             <!-- MESSAGES -->
             <?php if (isset($_SESSION['message'])) { ?>
                 <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
@@ -33,9 +27,16 @@ if (!isset($_SESSION['rol'])) {
                 </div>
             <?php unset($_SESSION['message']); } ?>
             <!-- MESSAGES -->    
+            <?php if ($_SESSION['crear'] == 1) { ?>
+            <div class="mb-2">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#empleado">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+            <?php } ?>
 
             <div class="modal fade" id="empleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Nuevo Registro</h5>
@@ -45,7 +46,7 @@ if (!isset($_SESSION['rol'])) {
                         </div>
                         <div class="modal-body">
                             <div class="card card-body">
-                                <form action="control/create_empleado.php" method="POST">
+                                <form id="crear_emp" action="control/create_empleado.php" method="POST">
                                     <div class="form-group">
                                         <input type="text" name="dpi" class="form-control" placeholder="DPI" required autofocus>
                                     </div>
@@ -60,7 +61,8 @@ if (!isset($_SESSION['rol'])) {
                                     </div>
                                     <label for="areaemp_idarea">Área:</label>
                                     <div class="input-group mb-1">
-                                        <select class="custom-select" id="areaemp_idarea" name="areaemp_idarea">
+                                        <select class="custom-select" id="areaemp_idarea" name="areaemp_idarea" required>
+                                            <option value="">Área...</option>
                                         <?php
 
                                             $query = "select * from areaemp order by descripcion asc";
@@ -72,8 +74,19 @@ if (!isset($_SESSION['rol'])) {
                                         </select>
                                     </div>
                                     <div class="text-center mb-3"><span><a href="areaemp_vw.php">Nueva área</a></span></div>
-                                    <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="create_empleado">Agregar</button>
+                                    <button type="submit" id="btnAgregar" class="btn btn-primary btn-block">Agregar</button>
                                 </form>
+                                <script> 
+                                    $(document).ready(function() {
+                                        $('#btnAgregar').click(function() {
+                                            $(this).prop("disabled", true);
+                                            $(this).html(
+                                            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+                                            );
+                                            $('#crear_emp').submit();
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -108,10 +121,14 @@ if (!isset($_SESSION['rol'])) {
                                 <td><?php echo $row['apellidos']; ?></td>
                                 <td><?php echo $row['descripcion']; ?></td>
                                 <td class="align-center" style="width: 100px">
-                                    <span data-toggle="tooltip" data-placement="top" title="Asignaciones"><button type="button" onclick="location.href='control/list_asignaciones_empleado.php?idempleado=<?php echo $row['idempleado']?>'" 
-                                    class="btn btn-success" style="width: 44px"><i class="fas fa-clipboard-list"></i></button></span>
-                                    <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
-                                    data-target="#Modal_empleado<?php echo $row['idempleado']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
+                                    <?php if ($_SESSION['leer'] == 1){ ?>
+                                        <span data-toggle="tooltip" data-placement="top" title="Asignaciones"><button type="button" onclick="location.href='control/list_asignaciones_empleado.php?idempleado=<?php echo $row['idempleado'] ?>'" 
+                                        class="btn btn-success" style="width: 44px"><i class="fas fa-clipboard-list"></i></button></span>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['editar'] == 1) { ?>
+                                        <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
+                                        data-target="#Modal_empleado<?php echo $row['idempleado']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
+                                    <?php } ?>
                                 </td>
                             </tr>
                             <?php include('modals/update_empleado.php'); ?>
@@ -121,7 +138,6 @@ if (!isset($_SESSION['rol'])) {
         </div>
     </div>
 </main>
-</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
@@ -136,14 +152,4 @@ if (!isset($_SESSION['rol'])) {
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
-</script>
-<script> 
-    $(document).ready(function() {
-        $('#btnAgregar').submit(function() {
-            $(this).prop("disabled", true);
-            $(this).html(
-            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
-            );
-        });
-    });
 </script>

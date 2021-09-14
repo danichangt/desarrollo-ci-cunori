@@ -11,10 +11,10 @@
       <div class="modal-body">
         <div class="card card-body">
             <p>
-                ¿Desea desasignar el bien que ha selecionado?
+                ¿Desea desasignar el bien que ha seleccionado?
             </p>
         </div>
-        <p class="font-weight-light">Nota: Esta acción no se puede deshacer.</p>
+        <span class="badge badge-warning">Aviso: Esta acción no se puede deshacer.</span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

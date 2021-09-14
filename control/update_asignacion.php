@@ -1,47 +1,65 @@
 <?php 
     include("../database.php"); 
 
-    $idasignacion = '';
-    $tarjeta_responsable = '';
-    $fecha_asignacion = '';
-    $articulo_idarticulo = '';
-    $empleado_idempleado = '';
-
     if (isset($_POST['actualizar'])) {
-        $idasignacion = $_GET['idasignacion'];
-        $tarjeta_responsable = $_POST['tarjeta_responsable'];
-        $fecha_asignacion = $_POST['fecha_asignacion'];
-        $empleado_idempleado = $_POST['empleado_idempleado'];
-        $articulo_idarticulo = $_POST['articulo_idarticulo'];
-        $tarjeta_responsable_anterior = '';
+        if (!empty($_POST['tarjeta_responsable']) && !empty($_POST['fecha_asignacion']) && !empty($_POST['empleado_idempleado'])) {
+            
+            $tarjeta_responsable_anterior = '';
 
-        $query_select = "select tarjeta_responsable from asignacion where idasignacion = $idasignacion";
-        $result_select = mysqli_query($conn, $query_select);
-        if (mysqli_num_rows($result_select) == 1) {
-            $row = mysqli_fetch_assoc($result_select);
-            $tarjeta_responsable_anterior = $row['tarjeta_responsable'];
-        }
-        
-        if ($tarjeta_responsable != $tarjeta_responsable_anterior) {
-            $query_update_contador = "update asignacion set contador_traslado = 1 where idasignacion = $idasignacion";
-            $result_update = mysqli_query($conn, $query_update_contador);
-            $query = "update asignacion set tarjeta_responsable = $tarjeta_responsable, fecha_asignacion = '$fecha_asignacion', empleado_idempleado = $empleado_idempleado 
-            where idasignacion = $idasignacion";
-            $result = mysqli_query($conn, $query);
+            $stmt_select = $conn->prepare("select tarjeta_responsable from asignacion where idasignacion = ?");
+            $stmt_select->bind_param("i", $idasignacion);
+            $idasignacion = $_GET['idasignacion'];
+            $stmt_select->execute();
+            $result_select = $stmt_select->get_result();
+            $stmt_select->close();
+            if (count($result_select) > 0) {
+                $row = $result_select->fetch_assoc();
+                $tarjeta_responsable_anterior = $row['tarjeta_responsable'];
+                $result_select->free_result();
+            }
+            
+            if ($tarjeta_responsable != $tarjeta_responsable_anterior) {
+                $stmt_update_contador = $conn->prepare("update asignacion set contador_traslado = 1 where idasignacion = ?");
+                $stmt_update_contador->bind_param("i", $idasignacion);
+                $idasignacion = $_GET['idasignacion'];
+                $stmt_update_contador->execute();
+                $stmt_update_contador->close();
+                $query = $conn->prepare("update asignacion set tarjeta_responsable = ?, fecha_asignacion = ?, empleado_idempleado = ? 
+                where idasignacion = ?");
+                $query->bind_param("isii", $tarjeta_responsable, $fecha_asignacion, $empleado_idempleado, $idasignacion);
+                $tarjeta_responsable = $_POST['tarjeta_responsable'];
+                $fecha_asignacion = $_POST['fecha_asignacion'];
+                $empleado_idempleado = $_POST['empleado_idempleado'];
+                $query->execute();
+                $query->close();
+
+            }else{
+                $query = $conn->prepare("update asignacion set tarjeta_responsable = ?, fecha_asignacion = ?, empleado_idempleado = ? 
+                where idasignacion = ?");
+                $query->bind_param("isii", $tarjeta_responsable, $fecha_asignacion, $empleado_idempleado, $idasignacion);
+                $tarjeta_responsable = $_POST['tarjeta_responsable'];
+                $fecha_asignacion = $_POST['fecha_asignacion'];
+                $empleado_idempleado = $_POST['empleado_idempleado'];
+                $query->execute();
+                $query->close();
+            }
+
+            
+            $_SESSION['message'] = '¡Registro actualizado!';
+            $_SESSION['message_type'] = 'info';
+
+            header('location: ../asignaciones_tb.php');
+            $conn->close();
+    
         }else{
-            $query = "update asignacion set tarjeta_responsable = $tarjeta_responsable, fecha_asignacion = '$fecha_asignacion', empleado_idempleado = $empleado_idempleado 
-            where idasignacion = $idasignacion";
-            $result = mysqli_query($conn, $query);
+            $_SESSION['message'] = 'Debe completar todos los campos.';
+            $_SESSION['message_type'] = 'danger';
+
+            header('location: ../asignaciones_tb.php');
+
         }
 
-        if (!$result) {
-            die("fallo");
-        }
-        $_SESSION['message'] = '¡Registro actualizado!';
-        $_SESSION['message_type'] = 'info';
-
-        header('location: ../asignaciones_tb.php');
     }
-
+    
 
 ?>

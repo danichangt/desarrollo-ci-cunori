@@ -1,21 +1,34 @@
 <?php
 
-    include('../database.php');
+    require('../database.php');
 
-    if (isset($_POST['create_tipobien'])) {
-        $descripcion = $_POST['descripcion'];
+    if (isset($_POST['descripcion'])) {
+        if (!empty($_POST['descripcion'])) {
+            
+            $stmt = $conn->prepare("insert into tipo (descripcion) values (?)");
+            $stmt->bind_param("s", $descripcion);
+            $descripcion = $_POST['descripcion'];
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
 
-        $query = "insert into tipo(descripcion) values('$descripcion')";
-        $result = mysqli_query($conn, $query);
+            if (count($result)) {
+                $_SESSION['message'] = '¡Registro creado!';
+                $_SESSION['message_type'] = 'success';
 
-        if (!$result) {
-            die("Consulta ha fallado.");
+                header('location: ../tipo_bien_vw.php');
+                $conn->close();
+            }else{
+                $conn->close();
+                die("Consulta ha fallado.");
+            }
+        }else{
+            $_SESSION['message'] = 'Debe completar todos los campos.';
+            $_SESSION['message_type'] = 'danger';
+
+            header('location: ../tipo_bien_vw.php');
         }
-
-        $_SESSION['message'] = '¡Registro creado!';
-        $_SESSION['message_type'] = 'success';
-
-        header('Location: ../tipo_bien_vw.php');
+        
     }
 
 ?>

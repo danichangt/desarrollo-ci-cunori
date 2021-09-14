@@ -15,12 +15,23 @@
   </div>
   <div class="row">
     <div class="col-md-10 mx-auto mb-3">
+      <!-- MESSAGES -->
+      <?php if (isset($_SESSION['message'])) { ?>
+      <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
+        <?= $_SESSION['message']?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <?php unset($_SESSION['message']); } ?>
+      <!-- MESSAGES -->
+    <?php if ($_SESSION['crear'] == 1) { ?>
       <div class="mb-2">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#articulos">
           <i class="fas fa-plus"></i> Agregar
         </button>
       </div>
-
+    <?php } ?>
       <div class="modal fade" id="articulos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
@@ -32,7 +43,7 @@
             </div>
             <div class="modal-body">
             <div class="card card-body">
-              <form action="control/create_articulo.php" method="POST">
+              <form id="add_aritulo" action="control/create_articulo.php" method="POST">
                   <div class="form-group">
                       <input type="text" name="no_clave_control" class="form-control" placeholder="No. Clave de Control" autofocus required>
                   </div>
@@ -77,8 +88,19 @@
                   <div class="form-group">
                       <input type="date" name="fecha_ingreso" class="form-control" required>
                   </div>
-                  <button type="submit" id="btnAgregar" class="btn btn-primary btn-block" name="create_articulo">Agregar</button>
+                  <button type="submit" id="btnAgregar" class="btn btn-primary btn-block">Agregar</button>
               </form>
+              <script> 
+                  $(document).ready(function() {
+                      $('#btnAgregar').click(function() {
+                          $(this).prop("disabled", true);
+                          $(this).html(
+                          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+                          );
+                          $('#add_aritulo').submit();
+                      });
+                  });
+              </script>
             </div>
             </div>
             <div class="modal-footer">
@@ -87,17 +109,6 @@
           </div>
         </div>
       </div>
-
-      <!-- MESSAGES -->
-      <?php if (isset($_SESSION['message'])) { ?>
-      <div class="alert alert-<?= $_SESSION['message_type']?> alert-dismissible fade show" role="alert">
-        <?= $_SESSION['message']?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <?php unset($_SESSION['message']); } ?>
-      <!-- MESSAGES -->
 
       <table class="table table-responsive-lg table-bordered text-center" id="inventario_anual">
         <thead>
@@ -117,10 +128,11 @@
         <tbody>
         
           <?php
-
+            date_default_timezone_set("America/Guatemala");
+            $año = date("d/m/Y, G:i");
             $query = "select a.idarticulo, a.no_clave_control, a.descripcion, a.valor, a.folio, c.descripcion as categoria, 
-            t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo t 
-            on a.tipo_idtipo = t.idtipo inner join categoria c on a.categoria_idcategoria = c.idcategoria;";
+            t.descripcion as tipo_bien_descripcion, a.fecha_ingreso, a.activo, a.disponible from articulo a inner join tipo 
+            t on a.tipo_idtipo = t.idtipo inner join categoria c on a.categoria_idcategoria = c.idcategoria";
             $result_articulo = mysqli_query($conn, $query);
 
             while($row = mysqli_fetch_assoc($result_articulo)){?>
@@ -150,15 +162,18 @@
                 <?php } ?>
                 <td class="align-center" style="width: 100px">
                   <?php 
+                    if ($_SESSION['crear'] == 1) {
                     if ($row['disponible'] != 1 || $row['activo'] != 1) { ?>
                       <span data-toggle="tooltip" data-placement="top" title="Asignar"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#Modal_asignacion<?php echo $row['idarticulo']; ?>" disabled style="width: 44px">
                      <i class="fas fa-user-plus" ></i></button></span>
                   <?php }else{ ?>
                     <span data-toggle="tooltip" data-placement="top" title="Asignar"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#Modal_asignacion<?php echo $row['idarticulo']; ?>" style="width: 44px">
                      <i class="fas fa-user-plus" ></i></button></span>
-                  <?php } ?>
+                  <?php } }?>
+                  <?php if ($_SESSION['editar'] == 1) { ?>
                   <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#Modal_articulo<?php echo $row['idarticulo']; ?>" style="width: 44px">
                   <i class="fas fa-edit"></i></button></span>
+                  <?php } ?>
                 </td>
               </tr>
                     <?php include('modals/create_asignacion.php'); ?>
@@ -175,7 +190,7 @@
 <script>
     $(document).ready(function() {
         $('#inventario_anual').DataTable( {
-          order: [[ 5, "asc" ]],
+          order: [[ 5, "desc" ]],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
             }
@@ -187,13 +202,4 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
-<script> 
-    $(document).ready(function() {
-        $('#btnAgregar').submit(function() {
-            $(this).prop("disabled", true);
-            $(this).html(
-            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
-            );
-        });
-    });
-</script>
+

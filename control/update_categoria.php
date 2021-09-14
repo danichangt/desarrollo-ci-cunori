@@ -1,33 +1,30 @@
 <?php 
 
-    include('../database.php'); 
-
-
-    $codigo_control ='';
-    $descripcion = '';
-
-    if (isset($_GET['idcategoria'])) {
-        $idcategoria = $_GET['idcategoria'];
-        $query = "select * from categoria where idcategoria = '$idcategoria'";
-        $result = mysqli_query($conn, $query);
-        if (mysqli_num_rows($result) == 1) {
-            $row = mysqli_fetch_array($result);
-            $codigo_control = $row['codigo_control'];
-            $descripcion = $row['descripcion'];
-        }
-    }
+    require('../database.php'); 
 
     if (isset($_POST['actualizar'])) {
-        $idcategoria = $_GET['idcategoria'];
-        $codigo_control = $_POST['codigo_control'];
-        $descripcion = $_POST['descripcion'];
+        if (!empty($_POST['codigo_control']) && !empty($_POST['descripcion'])) {
 
-        $query = "update categoria set codigo_control = '$codigo_control', descripcion = '$descripcion' where idcategoria = $idcategoria";
-        mysqli_query($conn, $query);
+            $stmt = $conn->prepare("update categoria set codigo_control = ?, descripcion = ? where idcategoria = ?");
+            $stmt->bind_param("ssi", $codigo_control, $descripcion, $idcategoria);
+            $idcategoria = $_GET['idcategoria'];
+            $codigo_control = $_POST['codigo_control'];
+            $descripcion = $_POST['descripcion'];
+            $stmt->execute();
 
-        $_SESSION['message'] = '¡Registro actualizado!';
-        $_SESSION['message_type'] = 'info';
-        header('location: ../categoria_vw.php');
+            $_SESSION['message'] = '¡Registro actualizado!';
+            $_SESSION['message_type'] = 'info';
+
+            header('location: ../categoria_vw.php');
+            $stmt->close();
+            $conn->close();
+        }else{
+            $_SESSION['message'] = 'Debe completar todos los campos.';
+            $_SESSION['message_type'] = 'danger';
+
+            header('location: ../categoria_vw.php');
+        }
+        
     }
 
 ?>

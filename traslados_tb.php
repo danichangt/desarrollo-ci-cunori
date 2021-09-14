@@ -52,10 +52,14 @@
                                 <td><?php echo $row['descripcion']?></td>
                                 <td><?php echo $row['seccion']?></td>
                                 <td class="align-center" style="width: 100px">
+                                    <?php if ($_SESSION['crear'] == 1) { ?>
                                     <span data-toggle="tooltip" data-placement="top" title="Reporte"><button type="button" onclick="window.open('reports/report_traslado.php?idasignacion=<?php echo $row['idasignacion']?>')" 
                                     class="btn btn-success" style="width: 44px"><i class="fas fa-print"></i></button></span>
+                                    <?php } ?>
+                                    <?php if ($_SESSION['editar'] == 1) { ?>
                                     <span data-toggle="tooltip" data-placement="top" title="Editar"><button type="button" class="btn btn-secondary" data-toggle="modal" 
                                     data-target="#Modal_update_traslado<?php echo $row['idasignacion']; ?>" style="width: 44px"><i class="fas fa-edit"></i></button></span>
+                                    <?php } ?>
                                 </td>
                             </tr>
                             <?php include('modals/update_traslado.php'); ?>
@@ -64,9 +68,7 @@
             </table>
         </div>
     </div>
-
 </main>
-</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {

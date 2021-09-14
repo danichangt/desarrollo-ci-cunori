@@ -62,12 +62,11 @@ if (!isset($_SESSION['rol'])) {
         </table>
     </div>
 </main>
-</body>
 <?php include("partials/footer.php")?>
 <script >
     $(document).ready(function() {
         $('#inventario_general').DataTable( {
-            order: [[ 4, "asc" ]],
+            order: [[ 4, "desc" ]],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
             }

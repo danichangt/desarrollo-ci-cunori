@@ -14,8 +14,8 @@
     $ae_descripcion = '';
 
     
-    if(isset($_GET['idempleado'])){
-        $idempleado = $_GET['idempleado'];
+    if(isset($_SESSION['idempleado'])){
+        $idempleado = $_SESSION['idempleado'];
         $query = "select e.codigo, e.nombres, e.apellidos, ae.descripcion as area from empleado e inner join areaemp ae on e.areaemp_idarea = ae.idarea where e.idempleado = $idempleado";
         $result = mysqli_query($conn, $query);
         if (mysqli_num_rows($result) == 1) {
@@ -26,6 +26,7 @@
             $apellidos = $row['apellidos'];
 
             $ae_descripcion = $row['area'];
+            unset($_SESSION['idempleado']);
         }
     }
 
